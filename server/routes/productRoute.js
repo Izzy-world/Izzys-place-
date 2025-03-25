@@ -1,5 +1,5 @@
 import express from "express";
-import { allProducts, product, createProduct, products } from "../controllers/productController.js";
+import { allProducts, product, createProduct, products, searchProduct,  } from "../controllers/productController.js";
 const router = express.Router();
 
 // post request
@@ -13,5 +13,8 @@ router.get("/all-products",allProducts);
 
 // single product
 router.get("/:productId",product)
+
+// search
+router.get("/products/search",searchProduct)
 
 export default router;

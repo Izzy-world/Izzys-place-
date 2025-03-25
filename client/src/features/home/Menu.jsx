@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { categoryList, menuItems } from "../../db";
 import MyButton from "../../components/MyButton";
 import SearchField from "../../components/SearchField";
@@ -8,10 +8,31 @@ import { Link } from "react-router-dom";
 import {  toast } from 'sonner';
 import CartContext from "../../context/CartContext"
 
+const baseURL = import.meta.env.VITE_API_URL
 
 const Menu = () => {
   const [selectedCat, setSelectedCat] = useState("Burger");
+  const [menuItems,setMenuItems] = useState([])
+  const [isLoading,setIsLoading] = useState(false)
   const {handleAddToCart} = useContext(CartContext)
+  async function getMenu(){
+    try {
+      setIsLoading(true)
+      const req = await fetch(`${baseURL}/all-products`);
+      const res = await req.json()
+      console.log(res.products);
+      setMenuItems(res.products)
+      
+    } catch (error) {
+      console.log(error);
+      
+    }finally{
+      setIsLoading(false)
+    }
+  }
+  useEffect(()=>{
+    getMenu()
+  },[selectedCat])
   return (
     <>
       <main className="bg-[#2F2F2F] wrapper">
@@ -40,7 +61,18 @@ const Menu = () => {
         </section>
         {/* section-2 */}
         <section className="md:grid md:grid-cols-2 lg:grid-cols-3  justify-items-center gap-10  my-10 ">
-          {menuItems
+          {isLoading  ?  [...Array(menuItems.length || 6)].map((index)=> <div key={index} className="card bg-[#252422] w-full md:w-[340px] lg:w-[98%] p-[16px] my-10 md:my-0 shadow-sm ">
+
+            <div className="skeleton h-[330px] w-full bg-gray-800"></div>
+            <div className="pt-4">
+              <div className="skeleton h-6 w-3/4 mb-4 bg-gray-800"></div>
+              <div className="skeleton h-5 w-1/2 mb-2 bg-gray-800"></div>
+              <div className="skeleton w-full h-[56px] bg-gray-800"></div>
+            </div>
+
+</div>  )  :  <> 
+          
+            {menuItems
             .filter((menuItem) => menuItem.category === selectedCat)
             .map((mappedMenu) => {
               const { _id, title, image, rating, duration, price, category } =
@@ -92,6 +124,9 @@ const Menu = () => {
                 </div>
               );
             })}
+          
+           </>  }
+          
         </section>
       </main>
     </>
