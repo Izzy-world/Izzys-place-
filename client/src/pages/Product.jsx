@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import { menuItems } from "../db";
+// import { menuItems } from "../db";
 import MyButton from "../components/MyButton";
 import { useEffect } from "react";
 import CartContext from "../context/CartContext";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import rateIcon from "../assets/rating-icon.svg";
-import { allProducts } from "../../../server/controllers/productController";
+// import { allProducts } from "../../../server/controllers/productController";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
