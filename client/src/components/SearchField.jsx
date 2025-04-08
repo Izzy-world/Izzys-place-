@@ -22,7 +22,7 @@ if(!searchTerm){
 async function fetchSearchResults(){
   setIsLoading(true)
   try {
-    const request = await fetch(`${baseUrl}/products/search?query=${searchTerm}`)
+    const request = await fetch(`${baseUrl}/api/product/products/search?query=${searchTerm}`)
     const data = await request.json();
     setSearchResults(data.products || [])
   } catch (error) {

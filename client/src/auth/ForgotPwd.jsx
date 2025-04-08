@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import LoadingRing from "../utils/Loader";
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 const ForgotPwd = () => {
   const {
     register,
@@ -22,7 +24,7 @@ const ForgotPwd = () => {
 
   const handleForgotPwd = async (data) => {
     try { 
-      const  req = await fetch("http://localhost:4040/api/auth/forgot-password",{
+      const  req = await fetch(`${baseUrl}/api/auth/forgot-password`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"

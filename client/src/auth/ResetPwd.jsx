@@ -7,13 +7,17 @@ import MyButton from "../components/MyButton";
 import brandLogo from "../assets/nav-logo.svg"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ResetpwdSchema } from "../utils/ValidationSchema";
-import { useParams } from "react-router-dom";
 import LoadingRing from "../utils/Loader";
+import { useParams, useNavigate } from "react-router-dom";
+
+const baseUrl = import.meta.env.VITE_API_URL;
 
 const ResetPwd = () => {
   const [isReveal, setIsReveal] = useState(false);
   const [isReveal2, setIsReveal2] = useState(false);
   const {resetToken} = useParams();
+  const navigate = useNavigate();
+
   function togglePwd() {
     setIsReveal((prev) => !prev);
   }
@@ -29,7 +33,21 @@ const ResetPwd = () => {
       })
       const onSubmit = async  (data) => {
         try {
-          const req = await fetch()
+          const req = await fetch(`${baseUrl}/api/auth/reset-password/${resetToken}`,{
+            method:"PUT",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+          }) 
+          const res = await req.json();
+          if(!res.success){
+            toast.error(res.errMsg);
+          }
+          if(res.success){
+            toast.success(res.message)
+            navigate("/")
+          }
         } catch (error) {
           
         }
