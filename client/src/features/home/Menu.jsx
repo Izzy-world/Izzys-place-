@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import {  toast } from 'sonner';
 import CartContext from "../../context/CartContext"
 
-const baseURL = import.meta.env.VITE_API_URL
+const baseUrL = import.meta.env.VITE_API_URL
 
 const Menu = () => {
   const [selectedCat, setSelectedCat] = useState("Burger");
@@ -18,7 +18,7 @@ const Menu = () => {
   async function getMenu(){
     try {
       setIsLoading(true)
-      const req = await fetch(`${baseURL}/api/product/all-products`);
+      const req = await fetch(`${baseUrL}/api/product/all-products`);
       const res = await req.json()
       console.log(res.products);
       setMenuItems(res.products)
