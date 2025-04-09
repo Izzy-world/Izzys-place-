@@ -112,7 +112,7 @@ const Navbar = () => {
                       >
                         {" "}
                         <img src={helloIcon} alt="" />
-                        Hi, {user.firstName }
+                        Hi, {user.firstname }
                         <img src={dropdown} alt="" />
                       </div>
                       <ul
