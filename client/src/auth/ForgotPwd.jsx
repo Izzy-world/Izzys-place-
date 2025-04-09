@@ -9,7 +9,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import LoadingRing from "../utils/Loader";
 
 const baseUrl = import.meta.env.VITE_API_URL;
-
 const ForgotPwd = () => {
   const {
     register,
@@ -23,26 +22,28 @@ const ForgotPwd = () => {
   });
 
   const handleForgotPwd = async (data) => {
-    try { 
-      const  req = await fetch(`${baseUrl}/api/auth/forgot-password`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(data)
-      })
+    try {
+      const req = await fetch(
+        `https://izzys-place.onrender.com/api/auth/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            "content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const res = await req.json();
       console.log(res);
       if (!res.success) {
-        toast.error(res.errMsg)
+        toast.error(res.errMsg);
       }
       if (res.success) {
-        toast.success(res.message)
+        toast.success(res.message);
       }
-      
     } catch (error) {}
   };
-  const btnText = isSubmitting ? <LoadingRing/> : "Forgot Password"
+  const btnTxt = isSubmitting ? <LoadingRing /> : "Request Password Reset";
   return (
     <>
       <main className="bg-[#2F2F2F] h-screen flex flex-col text-center  md:text-start justify-center items-center">
@@ -65,7 +66,7 @@ const ForgotPwd = () => {
           <p className="text-red-600">{errors.email?.message}</p>
           <div className="mt-4">
             <MyButton
-              disabled={isSubmitting} text={btnText} 
+              text={btnTxt}
               className="w-[350px] font-[500] text-[20px] md:w-[400px] h-[56px]"
             />
           </div>

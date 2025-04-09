@@ -1,5 +1,5 @@
 import express from "express";
-import { signUp, signIn, forgotpassword, resetPassword,} from "../controllers/authController.js";
+import { signUp, signIn, forgotpassword, resetPassword, isLoggedIn,} from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -17,5 +17,8 @@ router.post("/forgot-password", forgotpassword );
 
 // reset password route
 router.put("/reset-password/:resetToken", resetPassword);
+
+// isLoggedIn
+router.get("/isloggedin", isLoggedIn)
 
 export default router

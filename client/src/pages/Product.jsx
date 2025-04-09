@@ -32,7 +32,7 @@ const Product = () => {
       // console.log(res.product);
       setProduct(res.product)
 
-      const allProducts = await fetch(`${baseUrl}/api/product/all-products`);
+      const allProducts = await fetch(`https://izzys-place.onrender.com/api/product/all-products`);
       const allProductsData = await allProducts.json();
       const filteredSimilarProducts = allProductsData.products.filter((item)=>item.category === res.product.category && item._id);
 

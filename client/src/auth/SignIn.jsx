@@ -9,11 +9,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signInSchema } from "../utils/ValidationSchema";
 import { toast } from "sonner";
 import LoadingRing from "../utils/Loader";
-
-const baseUrl = import.meta.env.VITE_API_URL;
+import { useAuth } from "../context/AuthContext";
 
 const SignIn = ({ switchToHome, switchToSignUp }) => {
   const [isReveal, setIsReveal] = useState(false);
+  const { login } = useAuth();
+
   function togglePwd() {
     setIsReveal((prev) => !prev);
   }
@@ -26,35 +27,38 @@ const SignIn = ({ switchToHome, switchToSignUp }) => {
   } = useForm({
     resolver: yupResolver(signInSchema),
   });
+
   const onSubmit = async (data) => {
     try {
-      const req = await fetch(`${baseUrl}/api/auth/sign-in`, {
+      const req = await fetch(`https://izzys-place.onrender.com/api/auth/sign-in`, {
         method: "POST",
         headers: {
-          "content-Type": "application/json",
+          "Content-Type": "application/json",  // Fixed casing
         },
         body: JSON.stringify(data),
       });
       const res = await req.json();
-      console.log(res);
+      
       if (!res.success) {
         toast.error(res.errMsg);
-        // setIsClicked(true);
         reset();
+        return;
       }
+      
       if (res.success) {
         toast.success(res.message);
         localStorage.setItem("customerToken", res.user.token);
+        login(res.user.token, res.user);
         reset();
         switchToHome();
       }
     } catch (error) {
-      console.log(error.message);
-    } finally {
-      // setIsClicked(false);
+      toast.error(error.message || "An error occurred during sign in");
     }
   };
+
   const btnText = isSubmitting ? <LoadingRing /> : "sign in";
+
   return (
     <>
       <main>
@@ -87,7 +91,7 @@ const SignIn = ({ switchToHome, switchToSignUp }) => {
               {...register("password")}
             />
             <img
-              className=" absolute top-2.5  left-[90%]"
+              className="absolute top-2.5 left-[90%] cursor-pointer"
               src={isReveal ? visibilityOff : visibilityOn}
               alt="toggle-password-img"
               onClick={togglePwd}
