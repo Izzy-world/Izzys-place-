@@ -17,7 +17,6 @@ import orderIcon from "../assets/orderIcon-E.svg";
 import logOut from "../assets/logoutIcon-E.svg";
 import dropdown from "../assets/drop-down-img.svg";
 
-
 const Navbar = () => {
   const [isLoggedIn, setIsloggedIn] = useState(!false);
   const { user, logout } = useAuth();
@@ -112,26 +111,29 @@ const Navbar = () => {
                       >
                         {" "}
                         <img src={helloIcon} alt="" />
-                        Hi, {user.firstname }
+                        Hi, {user.firstname}
                         <img src={dropdown} alt="" />
                       </div>
                       <ul
                         tabIndex={0}
                         className="dropdown-content menu bg-black rounded-box z-1 w-52 p-2 shadow-sm"
                       >
-                        <li className="text-white hover:bg-[#B67B0F]   cursor-pointer">
-                          <a>
-                            {" "}
-                            <img src={dashboard} alt="" /> DashBoard
-                          </a>
-                        </li>
+                        {user.role === "admin" && (
+                          <li className="text-white hover:bg-[#B67B0F]   cursor-pointer">
+                            <a>
+                              {" "}
+                              <img src={dashboard} alt="" /> DashBoard
+                            </a>
+                          </li>
+                        )}
+
                         <li className="text-white hover:bg-[#B67B0F]  cursor-pointer">
                           <a>
                             {" "}
                             <img src={helloIcon} alt="" /> My Account
                           </a>
                         </li>
-                        <Link to="/Order">
+                        <Link to="/orders">
                           <li className="text-white hover:bg-[#B67B0F] cursor-pointer">
                             <a>
                               {" "}
@@ -153,7 +155,8 @@ const Navbar = () => {
                             }
                           >
                             {" "}
-                            <img src={logOut} alt="" /> <span onClick={logout} >Log Out</span>
+                            <img src={logOut} alt="" />{" "}
+                            <span onClick={logout}>Log Out</span>
                           </button>
                         </li>
                       </ul>
