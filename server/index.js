@@ -13,7 +13,7 @@ dotenv.config()
 // http://localhost:4040/api/product/create
 
 app.use(express.json());
-
+ 
 // api routes
 app.use("/api/product", productRoute);
 app.use("/api/auth", authRoute);
